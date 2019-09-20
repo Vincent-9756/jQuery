@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>键盘控制元素移动</title>
+</head>
+<style>
+  #box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 40px;
+    height: 40px;
+    background-color: red;
+    border-radius: 50%;
+  }
+</style>
+<body>
+  <div id="box"></div>
+</body>
+<script src="../js/jquery-1.12.4.min.js"></script>
+<script>
+  $(function(){
+    //获取页面宽高
+    var pWidth = $(window).width();
+    var pHeight = $(window).height();
+    //键盘绑定事件
+    $(document).keydown(function(event){
+      console.log(pWidth,pHeight)
+      //获取目前位置
+      var left = $('#box').offset().left;
+      var top = $('#box').offset().top;
+      //判断按键
+      switch (event.which) {
+        case 65: //向左移动
+          $('#box').offset({
+            left: Math.max(left-10, 0),
+          });
+          break;
+        case 68: //向右移动
+          $('#box').offset({
+            left: Math.min(left+10, pWidth - 40),
+          });
+          break;
+        case 87: //向上移动
+          $('#box').offset({
+            top: Math.max(top-10, 0),
+          });
+          break;
+        case 83: //向下移动
+          $('#box').offset({
+            top: Math.min(top+10, pHeight - 40),
+          });
+          break;
+      }
+    });
+  });
+</script>
+</html>

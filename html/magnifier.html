@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>放大镜</title>
+</head>
+<style>
+  #smallBox{
+    width: 400px;
+    height: 400px;
+    position: relative;
+  }
+  #bigBox{
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    position: absolute;
+    display: none;
+  }
+  #zoom{
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #21271f5e;
+    cursor: move;
+    display: none;
+  }
+</style>
+<body>
+  <div id="smallBox">
+    <img src="../images/small.jpg" alt="">
+    <div id="zoom"></div>
+  </div>
+  <div id="bigBox">
+    <img src="../images//big.jpg" alt="">
+  </div>
+</body>
+<script src="../js/jquery-1.12.4.min.js"></script>
+<script>
+  $(function(){
+    //鼠标悬停在小图上
+    $('#smallBox').mouseenter(function(event){
+      //计算小图位置
+      var sLeft = $('#smallBox').offset().left;
+      var sTop = $('#smallBox').offset().top;
+      //显示放大元素
+      $('#zoom').show();
+      //显示大图并改变位置
+      $('#bigBox').show().offset({
+        left: sLeft + 400 + 10,
+        top: sTop
+      });
+      //鼠标移动事件
+      $('#smallBox').mousemove(function(event){
+        //获取鼠标在小图上的位置
+        var mLeft = event.pageX - sLeft;
+        var mTop = event.pageY - sTop;
+
+        //计算放大镜位置
+        var zLeft = Math.min(Math.max(mLeft-100, 0), 200);
+        var zTop = Math.min(Math.max(mTop-100, 0), 200);
+
+        //控制放大元素显示并跟随鼠标移动
+        $('#zoom').css('left', zLeft + 'px').css('top', zTop + 'px')
+
+        //控制大图显示的位置
+        $('#bigBox').scrollLeft(zLeft*2).scrollTop(zTop*2)
+      });
+    }).mouseleave(function(){
+      $('#bigBox').hide();
+      $('#zoom').hide();
+    });
+  });
+</script>
+</html>

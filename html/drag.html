@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>图片拖拽</title>
+</head>
+<style>
+  #box{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 100px;
+    height: 100px;
+    background-color: orange;
+    cursor: pointer;
+  }
+</style>
+<body>
+  <div id="box"></div>
+</body>
+<script src="../js/jquery-1.12.4.min.js"></script>
+<script>
+  $(function(){
+    $('#box').mousedown(function(eve){
+      $(this).css('opacity', '.6');
+      //鼠标在元素上的位置
+      var offsetX = eve.pageX - $(this).offset().left;
+      var offsetY = eve.pageX - $(this).offset().top;
+      //鼠标移动事件
+      $(this).mousemove(function(event){
+        var x = event.pageX - offsetX;
+        var y = event.pageY - offsetY;
+        console.log(x,y);
+        //改变元素位置
+        $(this).offset({
+          left:x,
+          top:y
+        })
+      })
+    }).mouseup(function(){
+      $(this).css('opacity', '1');
+      //解除绑定mousemove事件
+      $(this).off('mousemove');
+    });
+  });
+</script>
+</html>
